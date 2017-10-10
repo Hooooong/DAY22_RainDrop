@@ -3,7 +3,7 @@
 ### 설명
 ____________________________________________________
 
-![RainDrop]()
+![RainDrop](https://github.com/Hooooong/DAY22_RainDrop/blob/master/image/RainDrop.gif)
 
 - Thread 를 이용한 물방울 내리기
 
