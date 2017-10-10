@@ -155,7 +155,7 @@ ____________________________________________________
       }
 
       // flag 값을 통해 Thread 를 중지시키는 효과를 줄 수 있다.
-      // App 이 종료되는 시점에 onDestroy 가 호출되기 때문에 이때 flag 값을 변경한다.
+      // App 이 종료되는 시점에 onDestroy() 가 호출되므로 이때 flag 값을 변경한다.
       @Override
       protected void onDestroy() {
           runFlag = false;
