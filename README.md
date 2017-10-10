@@ -18,74 +18,74 @@ ____________________________________________________
 
   1. Button 을 누를 때 `RainDrop` 객체 생성
 
-    - while 문을 통해 `onDestroy()` 를 호출하기 전까지 `RainDrop` 객체를 생성한다.
+      - while 문을 통해 `onDestroy()` 를 호출하기 전까지 `RainDrop` 객체를 생성한다.
 
-    - 생성한 후 `CustomView` 의 List에 담아 사용
+      - 생성한 후 `CustomView` 의 List에 담아 사용
 
-    ```Java
-    public void makeRainDrop(View view){
-        new Thread(){
-            @Override
-            public void run() {
-                while(runFlag){
-                    int x = random.nextInt(width);
-                    int speed = random.nextInt(10)+2;
-                    int size = random.nextInt(100);
-                    int y = size*-1;
+      ```Java
+      public void makeRainDrop(View view){
+          new Thread(){
+              @Override
+              public void run() {
+                  while(runFlag){
+                      int x = random.nextInt(width);
+                      int speed = random.nextInt(10)+2;
+                      int size = random.nextInt(100);
+                      int y = size*-1;
 
-                    RainDrop rainDrop = new RainDrop(x, y, speed, size, Color.RED, height);
-                    customView.addRainDrop(rainDrop);
+                      RainDrop rainDrop = new RainDrop(x, y, speed, size, Color.RED, height);
+                      customView.addRainDrop(rainDrop);
 
-                    try {
-                        Thread.sleep(100);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }.start();
-    }
-    ```
+                      try {
+                          Thread.sleep(100);
+                      } catch (InterruptedException e) {
+                          e.printStackTrace();
+                      }
+                  }
+              }
+          }.start();
+      }
+      ```
 
   2. `CustomView` 새로고침
 
-    - 넘겨받은 `RainDrop`의 y축을 변경한 다음 `CustomView` 를 주기적으로 새로고침 해준다.
+      - 넘겨받은 `RainDrop`의 y축을 변경한 다음 `CustomView` 를 주기적으로 새로고침 해준다.
 
-    - Android 는 UI Thread 외부에서 UI 작업을 변경하면 Exception 이 발생한다.
+      - Android 는 UI Thread 외부에서 UI 작업을 변경하면 Exception 이 발생한다.
 
-    - `invalidate()` 는 UI Thread(main Thread) 에서만 사용할 수 있으므로 외부 Thread를 사용하여 View 를 변경할 때는 `postInvalidate()`를 사용하여 `CustomView` 를 새로고침한다.
+      - `invalidate()` 는 UI Thread(main Thread) 에서만 사용할 수 있으므로 외부 Thread를 사용하여 View 를 변경할 때는 `postInvalidate()`를 사용하여 `CustomView` 를 새로고침한다.
 
-    - `invalidate()` 와 `postInvalidate()` 를 호출하게 되면 `CustomView` 의 `onDraw()` 메소드 호출을 한다.
+      - `invalidate()` 와 `postInvalidate()` 를 호출하게 되면 `CustomView` 의 `onDraw()` 메소드 호출을 한다.
 
-    ```java
-    public void runStage() {
-        new Thread() {
-            @Override
-            public void run() {
-                while (MainActivity.runFlag) {
+      ```java
+      public void runStage() {
+          new Thread() {
+              @Override
+              public void run() {
+                  while (MainActivity.runFlag) {
 
-                    for (int i = 0; i < rainDropList.size(); i++) {
-                        RainDrop rainDrop = rainDropList.get(i);
-                        if (rainDrop.getY() > rainDrop.getLimit()) {
-                            rainDropList.remove(rainDrop);
-                            i--;
-                        } else {
-                            rainDrop.setY(rainDrop.getY() + rainDrop.getSpeed());
-                        }
-                    }
+                      for (int i = 0; i < rainDropList.size(); i++) {
+                          RainDrop rainDrop = rainDropList.get(i);
+                          if (rainDrop.getY() > rainDrop.getLimit()) {
+                              rainDropList.remove(rainDrop);
+                              i--;
+                          } else {
+                              rainDrop.setY(rainDrop.getY() + rainDrop.getSpeed());
+                          }
+                      }
 
-                    postInvalidate();
+                      postInvalidate();
 
-                    try {
-                        Thread.sleep(10);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }.start();
-    }
-    ```
+                      try {
+                          Thread.sleep(10);
+                      } catch (InterruptedException e) {
+                          e.printStackTrace();
+                      }
+                  }
+              }
+          }.start();
+      }
+      ```
 
 ### Code Review
 ____________________________________________________
