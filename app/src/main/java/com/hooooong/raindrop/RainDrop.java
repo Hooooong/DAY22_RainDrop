@@ -5,6 +5,7 @@ package com.hooooong.raindrop;
  */
 
 // RainDrop 이란 클래스는 스스로 행동을 해야 하기 때문에 Thread 를 상속받는다.
+// 하지만 꼭 Thread 를 상속받아 run 메소드를 재정의하는 것보다 이 객체를 사용하는 곳에서 y 값을 변경하여 그려주면 된다.(CustomView.stage 메소드)
 public class RainDrop{
     // 속성
     private float x;

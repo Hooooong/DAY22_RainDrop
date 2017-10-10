@@ -26,6 +26,7 @@ public class CustomView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+        // RainDrop 객체를 그려준다.
         if (rainDropList.size() > 0) {
             for (int i = 0; i < rainDropList.size(); i++) {
                 RainDrop rainDrop = rainDropList.get(i);
@@ -44,18 +45,20 @@ public class CustomView extends View {
             @Override
             public void run() {
                 while (MainActivity.runFlag) {
-
                     for (int i = 0; i < rainDropList.size(); i++) {
                         RainDrop rainDrop = rainDropList.get(i);
+                        // rainDrop 객체가 화면 밖으로 나갔으면 지워준다.
                         if (rainDrop.getY() > rainDrop.getLimit()) {
                             rainDropList.remove(rainDrop);
                             i--;
                         } else {
+                            // y값 수정
                             rainDrop.setY(rainDrop.getY() + rainDrop.getSpeed());
                         }
                     }
 
                     postInvalidate();
+
                     try {
                         Thread.sleep(10);
                     } catch (InterruptedException e) {
